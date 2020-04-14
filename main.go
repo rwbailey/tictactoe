@@ -23,10 +23,12 @@ func main() {
 
 	// Get the move from the current board
 	move := getMove()
-	fmt.Printf("%T\t%v\n", move, move)
+	// fmt.Printf("%T\t%v\n", move, move)
 
 	// Make the move
+	board = makeMove(board, move, "X")
 
+	render(board)
 	// Work out if there is a winner
 
 	// If there is a winner, crown the champion and exit the loop
@@ -100,4 +102,11 @@ func getMove() move {
 func isNumeric(s string) (int, bool) {
 	i, err := strconv.ParseInt(s, 10, 64)
 	return int(i), err == nil
+}
+
+func makeMove(b board, m move, p string) board {
+	n := make(board, len(b))
+	copy(n, b)
+	n[m[0]][m[1]] = p
+	return n
 }
