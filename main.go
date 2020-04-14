@@ -37,7 +37,7 @@ func main() {
 }
 
 type board [][]string
-type move int
+type move [2]int
 
 func newBoard() board {
 	return board{
@@ -64,11 +64,33 @@ func getMove() move {
 	var n int
 	for t == false {
 		fmt.Printf("Please anter your move: ")
-		m, _ := reader.ReadString('\n')
-		n, t = isNumeric(strings.Trim(m, "\n"))
+		i, _ := reader.ReadString('\n')
+		n, t = isNumeric(strings.Trim(i, "\n"))
 	}
 
-	return move(n)
+	var m move
+	switch {
+	case n == 1:
+		m = [2]int{0, 0}
+	case n == 2:
+		m = [2]int{0, 1}
+	case n == 3:
+		m = [2]int{0, 2}
+	case n == 4:
+		m = [2]int{1, 0}
+	case n == 5:
+		m = [2]int{1, 1}
+	case n == 6:
+		m = [2]int{1, 2}
+	case n == 7:
+		m = [2]int{2, 0}
+	case n == 8:
+		m = [2]int{2, 1}
+	case n == 9:
+		m = [2]int{2, 2}
+	}
+
+	return m
 }
 
 func isNumeric(s string) (int, bool) {
