@@ -2,33 +2,47 @@ package main
 
 import (
 	"bufio"
+	"errors"
 	"fmt"
+	"log"
 	"os"
 	"strconv"
 	"strings"
 )
 
+var theBoard board
+var currentPlayer string
+
 func main() {
 
 	// Make a board
-	board := newBoard()
-	// fmt.Println(board)
+	theBoard = newBoard()
+	currentPlayer = "X"
 
 	// Loop forever
+	for {
+		// Current player = ???
 
-	// Current player = ???
+		// Print current state of board
+		render(theBoard)
 
-	// Print current state of board
-	render(board)
+		// Get the move from the current board
+		move := getMove()
 
-	// Get the move from the current board
-	move := getMove()
-	// fmt.Printf("%T\t%v\n", move, move)
+		// Make the move
+		var err error
+		theBoard, err = makeMove(theBoard, move, currentPlayer)
+		if err != nil {
+			log.Fatal(err.Error())
+		}
 
-	// Make the move
-	board = makeMove(board, move, "X")
+		if currentPlayer == "X" {
+			currentPlayer = "O"
+		} else {
+			currentPlayer = "X"
+		}
+	}
 
-	render(board)
 	// Work out if there is a winner
 
 	// If there is a winner, crown the champion and exit the loop
@@ -104,9 +118,15 @@ func isNumeric(s string) (int, bool) {
 	return int(i), err == nil
 }
 
-func makeMove(b board, m move, p string) board {
+func makeMove(b board, m move, p string) (board, error) {
+
 	n := make(board, len(b))
 	copy(n, b)
+	if n[m[0]][m[1]] != " " {
+		return nil, errors.New("square already taken")
+	}
+
 	n[m[0]][m[1]] = p
-	return n
+
+	return n, nil
 }
