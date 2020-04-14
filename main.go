@@ -62,13 +62,17 @@ func getMove() move {
 	reader := bufio.NewReader(os.Stdin)
 	t := false
 	var n int
+	var m move
+
 	for t == false {
 		fmt.Printf("Please anter your move: ")
 		i, _ := reader.ReadString('\n')
 		n, t = isNumeric(strings.Trim(i, "\n"))
+		if n > 9 || n < 1 {
+			t = false
+		}
 	}
 
-	var m move
 	switch {
 	case n == 1:
 		m = [2]int{0, 0}
