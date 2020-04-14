@@ -31,25 +31,18 @@ type board [][]string
 
 func newBoard() board {
 	return board{
-		[]string{"X", "", ""},
-		[]string{"", "", ""},
-		[]string{"O", "", "X"}}
+		[]string{" ", " ", " "},
+		[]string{" ", " ", " "},
+		[]string{" ", " ", " "}}
 }
 
 func render(b board) {
-	// for i, v := range b {
-	// 	fmt.Printf("%v\t%v\n", i, v)
-	// }
 
 	fmt.Printf("-------\n")
 	for _, row := range b {
 		fmt.Printf("|")
 		for _, val := range row {
-			if val == "" {
-				fmt.Printf(" |")
-			} else {
-				fmt.Printf("%v|", val)
-			}
+			fmt.Printf("%v|", val)
 		}
 		fmt.Printf("\n-------\n")
 	}
