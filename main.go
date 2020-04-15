@@ -2,9 +2,7 @@ package main
 
 import (
 	"bufio"
-	"errors"
 	"fmt"
-	"log"
 	"os"
 	"strconv"
 	"strings"
@@ -29,17 +27,17 @@ func main() {
 		// Get the move from the current board
 		move := getMove()
 
-		// Make the move
-		var err error
-		theBoard, err = makeMove(theBoard, move, currentPlayer)
-		if err != nil {
-			log.Fatal(err.Error())
-		}
+		if isValidMove(theBoard, move) {
+			// Make the move
+			theBoard = makeMove(theBoard, move, currentPlayer)
 
-		if currentPlayer == "X" {
-			currentPlayer = "O"
+			if currentPlayer == "X" {
+				currentPlayer = "O"
+			} else {
+				currentPlayer = "X"
+			}
 		} else {
-			currentPlayer = "X"
+			fmt.Println("That move is invalid.")
 		}
 	}
 
@@ -118,15 +116,20 @@ func isNumeric(s string) (int, bool) {
 	return int(i), err == nil
 }
 
-func makeMove(b board, m move, p string) (board, error) {
+func isValidMove(b board, m move) bool {
+	if b[m[0]][m[1]] != " " {
+		return false
+	}
+	return true
+}
 
+func makeMove(b board, m move, p string) board {
 	n := make(board, len(b))
 	copy(n, b)
-	if n[m[0]][m[1]] != " " {
-		return nil, errors.New("square already taken")
-	}
-
 	n[m[0]][m[1]] = p
-
-	return n, nil
+	return n
 }
+
+// func getWinner() (bool, string) {
+
+// }
