@@ -11,9 +11,6 @@ import (
 type board [][]string
 type move [2]int
 
-// var theBoard board
-// var currentPlayer string
-
 func main() {
 
 	// Make a board
