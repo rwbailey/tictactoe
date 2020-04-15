@@ -30,10 +30,12 @@ func main() {
 		// Get the move from the current board
 		move := getMove()
 
+		// Check if the move is valid for the current state of the board
 		if isValidMove(theBoard, move) {
 			// Make the move
 			theBoard = makeMove(theBoard, move, currentPlayer)
 
+			// Switch player
 			if currentPlayer == "X" {
 				currentPlayer = "O"
 			} else {
@@ -48,16 +50,17 @@ func main() {
 
 		// If there is a winner, crown the champion and exit the loop
 		if win {
+			render(theBoard)
 			fmt.Printf("\n%v wins!\n\nWould you like to play again? (y/n) ", winner)
 			if !playAgain() {
 				break
 			}
+
+			// Reset the game
 			theBoard = newBoard()
 			currentPlayer = "X"
 		}
 	}
-
-	// If there is a winner, crown the champion and exit the loop
 
 	// If there is no winner and the board is full, declare a draw
 
