@@ -8,14 +8,17 @@ import (
 	"strings"
 )
 
-var theBoard board
-var currentPlayer string
+type board [][]string
+type move [2]int
+
+// var theBoard board
+// var currentPlayer string
 
 func main() {
 
 	// Make a board
-	theBoard = newBoard()
-	currentPlayer = "X"
+	theBoard := newBoard()
+	currentPlayer := "X"
 
 	// Loop forever
 	for {
@@ -39,19 +42,27 @@ func main() {
 		} else {
 			fmt.Println("That move is invalid.")
 		}
-	}
 
-	// Work out if there is a winner
+		// Work out if there is a winner
+		win, winner := getWinner(theBoard)
+
+		// If there is a winner, crown the champion and exit the loop
+		if win {
+			fmt.Printf("\n%v wins!\n\nWould you like to play again? (y/n) ", winner)
+			if !playAgain() {
+				break
+			}
+			theBoard = newBoard()
+			currentPlayer = "X"
+		}
+	}
 
 	// If there is a winner, crown the champion and exit the loop
 
-	// If there is nno winner and the board is full, declare a draw
+	// If there is no winner and the board is full, declare a draw
 
 	// Repeat until the game is over
 }
-
-type board [][]string
-type move [2]int
 
 func newBoard() board {
 	return board{
@@ -130,6 +141,38 @@ func makeMove(b board, m move, p string) board {
 	return n
 }
 
-// func getWinner() (bool, string) {
+func getWinner(b board) (bool, string) {
+	possiblelines := [][]string{
+		// Horizontals
+		[]string{b[0][0], b[0][1], b[0][2]},
+		[]string{b[1][0], b[1][1], b[1][2]},
+		[]string{b[2][0], b[2][1], b[2][2]},
 
-// }
+		// Verticals
+		[]string{b[0][0], b[1][0], b[2][0]},
+		[]string{b[0][1], b[1][1], b[2][1]},
+		[]string{b[0][2], b[1][2], b[2][2]},
+
+		// Diagonals
+		[]string{b[0][0], b[1][1], b[2][2]},
+		[]string{b[2][0], b[1][1], b[0][2]},
+	}
+
+	for _, v := range possiblelines {
+		if v[0] != " " && v[0] == v[1] && v[1] == v[2] {
+			return true, v[0]
+		}
+	}
+	return false, ""
+}
+
+func playAgain() bool {
+	reader := bufio.NewReader(os.Stdin)
+	i, _ := reader.ReadString('\n')
+	pa := strings.Trim(i, "\n")
+
+	if pa == "y" {
+		return true
+	}
+	return false
+}
