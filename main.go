@@ -59,6 +59,15 @@ func main() {
 			// Reset the game
 			theBoard = newBoard()
 			currentPlayer = "X"
+		} else if getDraw(theBoard) {
+			render(theBoard)
+			fmt.Printf("\nThe game is a draw!\n\nWould you like to play again? (y/n) ")
+			if !playAgain() {
+				break
+			}
+			// Reset the game
+			theBoard = newBoard()
+			currentPlayer = "X"
 		}
 	}
 
@@ -178,4 +187,15 @@ func playAgain() bool {
 		return true
 	}
 	return false
+}
+
+func getDraw(b board) bool {
+	for _, r := range b {
+		for _, c := range r {
+			if c == " " {
+				return false
+			}
+		}
+	}
+	return true
 }
