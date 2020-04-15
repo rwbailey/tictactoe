@@ -25,7 +25,7 @@ func main() {
 		// Print current state of board
 		render(theBoard)
 
-		// Get the move from the current board
+		// Get the move from the player
 		move := getMove()
 
 		// Check if the move is valid for the current state of the board
