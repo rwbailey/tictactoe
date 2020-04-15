@@ -53,10 +53,11 @@ func main() {
 			if !playAgain() {
 				break
 			}
-
 			// Reset the game
 			theBoard = newBoard()
 			currentPlayer = "X"
+
+			// If there is no winner and the board is full, declare a draw
 		} else if getDraw(theBoard) {
 			render(theBoard)
 			fmt.Printf("\nThe game is a draw!\n\nWould you like to play again? (y/n) ")
@@ -68,10 +69,6 @@ func main() {
 			currentPlayer = "X"
 		}
 	}
-
-	// If there is no winner and the board is full, declare a draw
-
-	// Repeat until the game is over
 }
 
 func newBoard() board {
