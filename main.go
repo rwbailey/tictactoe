@@ -22,7 +22,8 @@ func main() {
 
 	// Loop forever
 	for {
-		// Current player = ???
+
+		fmt.Println("Use the numbers 1-9 to enter your move.")
 
 		// Print current state of board
 		render(theBoard)
